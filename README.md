@@ -18,11 +18,11 @@ sudo npm install -g .
 
 ```sh
 cd spring-application
-hexagen {patterns} {package} {module}
+pattern {patterns} {package} {module}
 ```
 Example: 
 patterns is "mvc", package is "com.wingmoney.inventory" module is "deportment"
-hexagen mvc com.wingmoney.inventory deportment
+pattern mvc com.wingmoney.inventory deportment
 
 ## Development
 
