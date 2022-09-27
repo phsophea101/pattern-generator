@@ -1,0 +1,76 @@
+package {{package}}.web.{{lowerCase service}}.portal;
+
+import com.wingmoney.core.exception.BusinessException;
+import  {{package}}.core.dto.{{titleCase service}}DTO;
+import {{package}}.core.mapper.{{titleCase service}}Mapper;
+import {{package}}.core.service.{{titleCase service}}Service;
+import {{package}}.web.{{lowerCase service}}.vo.request.{{titleCase service}}CreateRequestVO;
+import {{package}}.web.{{lowerCase service}}.vo.request.{{titleCase service}}UpdateRequestVO;
+import {{package}}.web.{{lowerCase service}}.vo.request.{{titleCase service}}PageableRequestVO;
+import {{package}}.web.{{lowerCase service}}.vo.response.{{titleCase service}}ItemResponseVO;
+import {{package}}.web.{{lowerCase service}}.vo.response.{{titleCase service}}ResponseVO;
+import com.wingmoney.web.util.RestControllerUtils;
+import com.wingmoney.web.vo.response.PageableResponseVO;
+import com.wingmoney.web.vo.response.ResponseMessageBuilder;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+
+@Tag(name = "[PORTAL API]: to manipulate for {{lowerCase service}}", description = "these APIs can make a create, update and delete for {{lowerCase service}}, ...")
+@RestController
+@RequestMapping("api/portal/{{lowerCase service}}")
+@RequiredArgsConstructor
+public class Portal{{titleCase service}}Controller implements RestControllerUtils<{{titleCase service}}ItemResponseVO, {{titleCase service}}ResponseVO, {{titleCase service}}CreateRequestVO, {{titleCase service}}UpdateRequestVO, {{titleCase service}}PageableRequestVO>{
+ 
+    private final {{titleCase service}}Service {{lowerCase service}}Service;
+
+    @Override
+    public ResponseMessageBuilder.ResponseMessage<{{titleCase service}}ResponseVO> create(@Valid {{titleCase service}}CreateRequestVO {{lowerCase service}}CreateRequestVO) throws BusinessException {
+        {{titleCase service}}DTO dto = new {{titleCase service}}DTO();
+        {{titleCase service}}Mapper.INSTANCE.copyCreateRequestVoToDto({{lowerCase service}}CreateRequestVO, dto);
+        this.{{lowerCase service}}Service.create(dto);
+        {{titleCase service}}ResponseVO {{lowerCase service}}ResponseVO = new {{titleCase service}}ResponseVO();
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToResponseVo(dto, {{lowerCase service}}ResponseVO);
+        return new ResponseMessageBuilder<{{titleCase service}}ResponseVO>().addData({{lowerCase service}}ResponseVO).success().build();
+    }
+
+    @Override
+    public ResponseMessageBuilder.ResponseMessage<{{titleCase service}}ResponseVO> update(@Valid {{titleCase service}}UpdateRequestVO {{lowerCase service}}UpdateRequestVO, String id) throws BusinessException {
+        {{titleCase service}}DTO dto = new {{titleCase service}}DTO();
+        {{titleCase service}}Mapper.INSTANCE.copyUpdateRequestVoToDto({{lowerCase service}}UpdateRequestVO, dto);
+        this.{{lowerCase service}}Service.update(dto, id);
+        {{titleCase service}}ResponseVO {{lowerCase service}}ResponseVO = new {{titleCase service}}ResponseVO();
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToResponseVo(dto, {{lowerCase service}}ResponseVO);
+        return new ResponseMessageBuilder<{{titleCase service}}ResponseVO>().addData({{lowerCase service}}ResponseVO).success().build();
+    }
+
+    @Override
+    public ResponseMessageBuilder.ResponseMessage<Void> delete(String id) throws BusinessException {
+        this.{{lowerCase service}}Service.delete(id);
+        return new ResponseMessageBuilder<Void>().success().build();
+    }
+
+    @Override
+    public ResponseMessageBuilder.ResponseMessage<PageableResponseVO<{{titleCase service}}ItemResponseVO>> findWithPage(@Valid {{titleCase service}}PageableRequestVO request) throws BusinessException {
+        {{titleCase service}}DTO dto = new {{titleCase service}}DTO();
+        {{titleCase service}}Mapper.INSTANCE.copyPageRequestVoToDto(request, dto);
+        Page<{{titleCase service}}DTO> page = this.{{lowerCase service}}Service.findWithPage(dto, request);
+        List<{{titleCase service}}ItemResponseVO> responseVoList = new ArrayList<>();
+        {{titleCase service}}Mapper.INSTANCE.copyListDtoToResponseVo(page.getContent(), responseVoList);
+        return new ResponseMessageBuilder<PageableResponseVO<{{titleCase service}}ItemResponseVO>>().addData(new PageableResponseVO<>(page.getTotalElements(), responseVoList, request)).success().build();
+    }
+
+    @Override
+    public ResponseMessageBuilder.ResponseMessage<{{titleCase service}}ResponseVO> findOne(String id) throws BusinessException {
+        {{titleCase service}}DTO dto = this.{{lowerCase service}}Service.findOne(id);
+        {{titleCase service}}ResponseVO {{titleCase service}}ResponseVO = new {{titleCase service}}ResponseVO();
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToResponseVo(dto, {{titleCase service}}ResponseVO);
+        return new ResponseMessageBuilder<{{titleCase service}}ResponseVO>().addData({{titleCase service}}ResponseVO).success().build();
+    }
+}
