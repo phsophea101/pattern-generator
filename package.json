@@ -1,0 +1,19 @@
+{
+  "name": "hexagen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "plop"
+  },
+  "bin": {
+    "pattern": "./app.js"
+  },
+  "type": "module",
+  "preferGlobal": true,
+  "author": "ECO Developers",
+  "license": "ISC",
+  "devDependencies": {
+    "plop": "^3.0.5"
+  }
+}
