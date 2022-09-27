@@ -22,9 +22,9 @@ pattern {patterns} {package} {module}
 ```
 Example: 
 patterns is "mvc", package is "com.wingmoney.inventory" module is "deportment"
-
+```sh
 pattern mvc com.wingmoney.inventory deportment
-
+```
 ## Development
 
 Want to contribute? Great!
