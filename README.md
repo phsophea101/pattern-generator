@@ -22,6 +22,7 @@ pattern {patterns} {package} {module}
 ```
 Example: 
 patterns is "mvc", package is "com.wingmoney.inventory" module is "deportment"
+
 pattern mvc com.wingmoney.inventory deportment
 
 ## Development
