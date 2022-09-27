@@ -64,7 +64,7 @@ export default function (plop) {
 			},
 			{
 				type: 'add',
-				path: 'src/main/java/{{genPackage package}}/core/enity/{{titleCase service}}Entity.java',
+				path: 'src/main/java/{{genPackage package}}/core/entity/{{titleCase service}}Entity.java',
 				templateFile: 'templates/mvc/entity/ApplicationEntity.hbs'
 			},
 			{
