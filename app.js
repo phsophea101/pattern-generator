@@ -15,7 +15,7 @@ console.log(__dirname);
 
 Plop.prepare({
     cwd: argv.cwd,
-    configPath: path.join(__dirname, 'configuration-patterns.js'),
+    configPath: path.join(__dirname, 'config/configuration-patterns.js'),
     preload: argv.preload || [],
     completion: argv.completion
 }, env => Plop.execute(env, (env) => {
