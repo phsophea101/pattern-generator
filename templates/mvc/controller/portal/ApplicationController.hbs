@@ -27,9 +27,7 @@ import java.util.List;
 @RequestMapping("api/portal/{{lowerCase service}}")
 @RequiredArgsConstructor
 public class Portal{{titleCase service}}Controller implements RestControllerUtils<{{titleCase service}}ItemResponseVO, {{titleCase service}}ResponseVO, {{titleCase service}}CreateRequestVO, {{titleCase service}}UpdateRequestVO, {{titleCase service}}PageableRequestVO>{
- 
     private final {{titleCase service}}Service {{lowerCase service}}Service;
-
     @Override
     public ResponseMessageBuilder.ResponseMessage<{{titleCase service}}ResponseVO> create(@Valid {{titleCase service}}CreateRequestVO {{lowerCase service}}CreateRequestVO) throws BusinessException {
         {{titleCase service}}DTO dto = new {{titleCase service}}DTO();
