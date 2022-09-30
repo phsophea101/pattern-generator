@@ -1,0 +1,97 @@
+package {{package}}.core.service.impl;
+
+import com.wingmoney.core.exception.BusinessException;
+import {{package}}.core.dto.{{titleCase service}}DTO;
+import {{package}}.core.entity.{{titleCase service}}Entity;
+import {{package}}.core.mapper.{{titleCase service}}Mapper;
+import {{package}}.core.service.{{titleCase service}}Service;
+import {{package}}.core.type.StatusTypes;
+import com.wingmoney.web.vo.request.PageableRequestVO;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class {{titleCase service}}ServiceImpl implements {{titleCase service}}Service {
+    private final MongoTemplate template;
+    @Override
+    public void create({{titleCase service}}DTO {{lowerCase service}}DTO) throws BusinessException {
+        {{titleCase service}}Entity entity = new {{titleCase service}}Entity();
+        entity.setStatus(StatusTypes.ACTIVE);
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity({{lowerCase service}}DTO, entity);
+        this.template.save(entity);
+        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, {{lowerCase service}}DTO);
+    }
+
+    @Override
+    public void update({{titleCase service}}DTO {{lowerCase service}}DTO, String id) throws BusinessException {
+        {{titleCase service}}Entity entity = this.findOneEntity(id);
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity({{lowerCase service}}DTO, entity);
+        this.template.save(entity);
+        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, {{lowerCase service}}DTO);
+    }
+
+    @Override
+    public void delete(String id) throws BusinessException {
+        {{titleCase service}}DTO oldDto = this.findOne(id);
+        {{titleCase service}}Entity entity = new {{titleCase service}}Entity();
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity(oldDto, entity);
+        entity.setStatus(StatusTypes.DELETED);
+        this.template.save(entity);
+    }
+
+    @Override
+    public {{titleCase service}}DTO findOne(String id) throws BusinessException {
+        {{titleCase service}}Entity entity = this.findOneEntity(id);
+        {{titleCase service}}DTO dto = new {{titleCase service}}DTO();
+        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, dto);
+        return dto;
+    }
+
+    private {{titleCase service}}Entity findOneEntity(String id) throws BusinessException {
+        Assert.notNull(id, "{{lowerCase service}} id require.");
+        {{titleCase service}}Entity entity = this.template.findById(id, {{titleCase service}}Entity.class);
+        if (ObjectUtils.isEmpty(entity)) {
+            throw new BusinessException("E0404", "{{lowerCase service}} records not found.");
+        }
+        return entity;
+    }
+
+    @Override
+    public Page<{{titleCase service}}DTO> findWithPage({{titleCase service}}DTO {{lowerCase service}}DTO, PageableRequestVO pageableRequestVO) throws BusinessException {
+         Sort sort = Sort.by("createdDate").descending();
+        if (ObjectUtils.allNotNull(pageableRequestVO.getDirection(), pageableRequestVO.getProperty())) {
+            sort = Sort.by(Sort.Direction.valueOf(pageableRequestVO.getDirection().name()), pageableRequestVO.getProperty());
+        }
+        PageRequest pageRequest = PageRequest.of(pageableRequestVO.getPage() - 1, pageableRequestVO.getRpp(), sort);
+        List<{{titleCase service}}DTO> items = new ArrayList<>();
+//        search
+        Query query = new Query();
+        if (ObjectUtils.isNotEmpty({{lowerCase service}}DTO.getKeywords())) {
+//            TODO
+//            Criteria format = Criteria.where("format").regex(".*" + taxDTO.getKeywords() + ".*", "i");
+//            Criteria orCriteria = new Criteria();
+//            List<Criteria> orExpression = new ArrayList<>();
+//            orExpression.add(format);
+//            query.addCriteria(orCriteria.orOperator(orExpression.toArray(new Criteria[orExpression.size()])));
+}
+        long records = template.count(query, {{titleCase service}}Entity.class);
+        List<{{titleCase service}}Entity> entityList = this.template.find(query.with(pageRequest), {{titleCase service}}Entity.class);
+        if (records > 0) {
+            {{titleCase service}}Mapper.INSTANCE.copyListEntityToDto(entityList, items);
+        }
+        return new PageImpl<>(items, pageRequest, records);
+    }
+}

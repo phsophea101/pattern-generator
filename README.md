@@ -1,7 +1,7 @@
 # Hexagen
 ## _Hexagen! see you again ^^_
 
-Hexagen is a command line to generate spring boot project with mvc and hexagonal structure.
+Hexagen is a command line to generate spring boot project with mvc or hexagonal pattern structure.
 ## Installation
 
 Hexagen requires [Node.js](https://nodejs.org/) v10+ to run.
@@ -18,12 +18,12 @@ sudo npm install -g .
 
 ```sh
 cd spring-application
-pattern {patterns} {package} {module}
+pattern {package} {module} {patterns} {data-mapper}
 ```
 Example: 
-patterns is "mvc", package is "com.wingmoney.inventory" module is "deportment"
+patterns is "mvc", package is "com.wingmoney.inventory", module is "deportment" and data mapper is "mongo"
 ```sh
-pattern mvc com.wingmoney.inventory deportment
+pattern com.wingmoney.inventory tax mvc mongo
 ```
 ## Development
 
