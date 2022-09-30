@@ -7,7 +7,7 @@
     "start": "plop"
   },
   "bin": {
-    "pattern": "./app.js"
+    "generate": "./app.js"
   },
   "type": "module",
   "preferGlobal": true,

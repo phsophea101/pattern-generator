@@ -18,12 +18,12 @@ sudo npm install -g .
 
 ```sh
 cd spring-application
-pattern {package} {module} {patterns} {data-mapper}
+generate {package} {module} {pattern} {data-mapper}
 ```
 Example: 
-patterns is "mvc", package is "com.wingmoney.inventory", module is "deportment" and data mapper is "mongo"
+pattern is "mvc", package is "com.wingmoney.inventory", module is "deportment" and data mapper is "mongo"
 ```sh
-pattern com.wingmoney.inventory deportment mvc mongo
+generate com.wingmoney.inventory deportment mvc mongo
 ```
 ## Development
 
