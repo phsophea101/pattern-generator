@@ -1,0 +1,13 @@
+package {{package}}.core.entity;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Setter
+@Getter
+@Document({{titleCase service}}Entity.COLLECTION_NAME)
+public class {{titleCase service}}Entity extends AuditableModel {
+    public static final String COLLECTION_NAME = "{{lowerCase service}}";
+
+}

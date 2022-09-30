@@ -1,0 +1,16 @@
+package {{package}}.core.entity;
+
+import lombok.Getter;
+import lombok.Setter;
+import javax.persistence.*;
+
+@Setter
+@Getter
+@Entity
+@Table(name = {{titleCase service}}Entity.TABLE_NAME)
+public class {{titleCase service}}Entity extends AuditableModel {
+    public static final String TABLE_NAME = "{{lowerCase service}}";
+    @Id
+    @Column(name = "id", nullable = false)
+    private String id;
+}
