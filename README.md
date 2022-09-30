@@ -23,7 +23,7 @@ pattern {package} {module} {patterns} {data-mapper}
 Example: 
 patterns is "mvc", package is "com.wingmoney.inventory", module is "deportment" and data mapper is "mongo"
 ```sh
-pattern com.wingmoney.inventory tax mvc mongo
+pattern com.wingmoney.inventory deportment mvc mongo
 ```
 ## Development
 
