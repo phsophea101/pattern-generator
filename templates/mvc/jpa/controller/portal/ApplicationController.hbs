@@ -24,7 +24,7 @@ import java.util.List;
 
 @Tag(name = "[PORTAL API]: to manipulate for {{lowerCase service}}", description = "these APIs can make a create, update and delete for {{lowerCase service}}, ...")
 @RestController
-@RequestMapping("api/portal/{{lowerCase service}}")
+@RequestMapping("api/portal/{{lowerCase service}}s")
 @RequiredArgsConstructor
 public class Portal{{titleCase service}}Controller implements RestControllerUtils<{{titleCase service}}ItemResponseVO, {{titleCase service}}ResponseVO, {{titleCase service}}CreateRequestVO, {{titleCase service}}UpdateRequestVO, {{titleCase service}}PageableRequestVO>{
     private final {{titleCase service}}Service {{lowerCase service}}Service;
