@@ -23,9 +23,11 @@ or
 generate {package} {module} {pattern} {data-mapper}
 ```
 Example: 
-juts type generate and following the instuction or
+juts type generate and following the instuction or \n
 pattern is "mvc", package is "com.wingmoney.inventory", module is "deportment" and data mapper is "mongo"
 ```sh
+generate
+or 
 generate com.wingmoney.inventory deportment mvc mongo
 ```
 ## Development
