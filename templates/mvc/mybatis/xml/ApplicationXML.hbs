@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="{{package}}.core.dao.{{titleCase service}}DAO">
+
+	<insert id="save" parameterType="{{package}}.core.entity.{{titleCase service}}Entity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+
+        <![CDATA[
+            INSERT INTO {{lowerCase service}} (
+                status
+                , created_by
+                , created_date
+            ) VALUES (
+                #{status}
+                , #{createdBy}
+                , NOW()
+            );
+        ]]>
+
+	</insert>
+
+	<update id="update" parameterType="{{package}}.core.entity.{{titleCase service}}Entity">
+
+        <![CDATA[
+            UPDATE {{lowerCase service}} SET
+                status = IFNULL(#{status}, status)
+                , updated_by 	= IFNULL(#{updatedBy}, updated_by)
+                , updated_date 	= IFNULL(#{updatedDate}, updated_date)
+            WHERE 
+                id = #{id};
+        ]]>
+
+	</update>
+
+    <select id="findOne" resultType="{{package}}.core.entity.{{titleCase service}}Entity">
+        
+        <![CDATA[
+            SELECT 
+                *
+            FROM
+                {{lowerCase service}}
+            WHERE
+                id = #{id}
+            LIMIT
+                1;
+        ]]>
+
+	</select>
+    
+    <select id="findWithList" resultType="{{package}}.core.entity.{{titleCase service}}Entity">
+        
+        <![CDATA[
+            SELECT 
+                *
+            FROM
+                {{lowerCase service}}
+            ORDER BY   
+                property direction
+        ]]>
+        
+		<include refid="com.wingmoney.wingmall.core.Pageable.pageableSql" />
+	</select>
+    
+    <select id="countRecords" resultType="long">
+        
+        <![CDATA[
+            SELECT 
+                COUNT(*)
+            FROM
+                {{lowerCase service}}
+        ]]>
+
+	</select>
+
+</mapper>

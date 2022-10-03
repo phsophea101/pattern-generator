@@ -1,13 +1,85 @@
 package {{package}}.core.service.impl;
 
+
+import com.wingmoney.core.exception.BusinessException;
+import com.wingmoney.core.exception.SystemException;
 import {{package}}.core.dao.{{titleCase service}}DAO;
+import {{package}}.core.dto.{{titleCase service}}DTO;
+import {{package}}.core.entity.{{titleCase service}}Entity;
+import {{package}}.core.mapper.{{titleCase service}}Mapper;
 import {{package}}.core.service.{{titleCase service}}Service;
+import com.wingmoney.web.client.exception.ConnectTimeoutException;
+import com.wingmoney.web.client.exception.ReadTimeoutException;
+import com.wingmoney.web.vo.request.PageableRequestVO;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class {{titleCase service}}ServiceImpl implements {{titleCase service}}Service {
-// private final {{titleCase service}}DAO {{lowerCase service}}DAO;
 
+    private final {{titleCase service}}DAO {{lowerCase service}}DAO;
+
+    @Override
+    public void create({{titleCase service}}DTO {{lowerCase service}}DTO) throws SystemException, ReadTimeoutException, ConnectTimeoutException, BusinessException {
+        {{titleCase service}}Entity entity = new {{titleCase service}}Entity();
+        entity.setStatus(StatusTypes.ACTIVE);
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity({{lowerCase service}}DTO, entity);
+        this.{{lowerCase service}}DAO.save(entity);
+        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, {{lowerCase service}}DTO);
+    }
+
+    @Override
+    public void update({{titleCase service}}DTO foodDTO, String id) throws SystemException, ReadTimeoutException, ConnectTimeoutException, BusinessException {
+        {{titleCase service}}Entity entity = this.findOneEntity(id);
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity({{lowerCase service}}DTO, entity);
+        this.{{lowerCase service}}DAO.update(entity);
+        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, {{lowerCase service}}DTO);
+    }
+
+    @Override
+    public void delete(String id) throws SystemException, ReadTimeoutException, ConnectTimeoutException, BusinessException {
+        {{titleCase service}}DTO oldDto = this.findOne(id);
+        {{titleCase service}}Entity entity = new {{titleCase service}}Entity();
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity(oldDto, entity);
+        entity.setStatus(StatusTypes.DELETED);
+        this.{{lowerCase service}}DAO.update(entity);
+    }
+    
+    private {{titleCase service}}Entity findOneEntity(String id) throws BusinessException {
+        Assert.notNull(id, "{{lowerCase service}} id require.");
+        {{titleCase service}}Entity entity = this.{{lowerCase service}}DAO.findOne(id);
+        if (ObjectUtils.isEmpty(entity)) {
+            throw new BusinessException("E0404", "{{lowerCase service}} records not found.");
+        }
+        return entity;
+    }
+
+    @Override
+    public {{titleCase service}}DTO findOne(String id) throws SystemException, ReadTimeoutException, ConnectTimeoutException, BusinessException {
+        {{titleCase service}}Entity entity = this.findOneEntity(id);
+        {{titleCase service}}DTO dto = new {{titleCase service}}DTO();
+        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, dto);
+        return dto;
+    }
+
+    @Override
+    public Page<{{titleCase service}}DTO> findWithPage({{titleCase service}}DTO foodDTO, PageableRequestVO pageableRequestVO) throws SystemException, ReadTimeoutException, ConnectTimeoutException, BusinessException {
+        List<{{titleCase service}}DTO> items = new ArrayList<>();
+        long records = this.{{lowerCase service}}DAO.countRecords(pageableRequestVO);
+        List<{{titleCase service}}Entity> entityList = this.{{lowerCase service}}DAO.findWithList(pageableRequestVO);
+        if (records > 0) {
+            {{titleCase service}}Mapper.INSTANCE.copyListEntityToDto(entityList, items);
+        }
+        PageRequest pageRequest = PageRequest.of(pageableRequestVO.getPage() - 1, pageableRequestVO.getRpp());
+        return new PageImpl<>(items, pageRequest, records);
+    }
 }
