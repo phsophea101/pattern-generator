@@ -11,7 +11,10 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-console.log(__dirname);
+// console.log(__dirname);
+console.log('\x1B[34m---------------------------------------------------------');
+console.log('\x1B[\t34m Welcome to spring application generator.');
+console.log('\x1B[34m---------------------------------------------------------');
 
 Plop.prepare({
     cwd: argv.cwd,

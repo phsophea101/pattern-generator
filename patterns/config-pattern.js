@@ -1,6 +1,6 @@
 import * as mongoMVC from './mvc/mongo.js';
 import * as jpaMVC from './mvc/jpa.js';
-import * as sampleMVC from './mvc/sample.js';
+import * as mybatis from './mvc/mybatis.js';
 
 const isNotEmptyFor = (prompt) => (value) => {
 	if (!value) return prompt + " is required";
@@ -18,19 +18,19 @@ export default function (plop) {
 			{
 				type: 'input',
 				name: 'package',
-				message: "package's name?",
+				message: "what's package?",
 				validate: isNotEmptyFor("package"),
 			},
 			{
 				type: 'input',
 				name: 'service',
-				message: "module's name?",
+				message: "what's your module name?",
 				validate: isNotEmptyFor("service"),
 			},
 			{
 				type: 'rawlist',
 				name: 'pattern',
-				message: "Choose your pattern?",
+				message: "Choose number for your pattern?",
 				choices: [
 					{ name: "MVC pattern", value: "mvc" },
 					{ name: "Hexagonal pattern", value: "hexagonal" }
@@ -38,10 +38,15 @@ export default function (plop) {
 				validate: isNotEmptyFor("pattern"),
 			},
 			{
-				type: 'input',
+				type: 'rawlist',
 				name: 'data',
-				message: "what's your data?",
-				validate: isNotEmptyFor("data"),
+				message: "Choose number for your data type?",
+				choices: [
+					{ name: "JPA Data", value: "jpa" },
+					{ name: "Mongo Data", value: "mongo" },
+					{ name: "MyBatis Data", value: "mybatis" }
+				],
+				validate: isNotEmptyFor("pattern"),
 			}
 		],
 		actions: function (data) {
@@ -52,8 +57,8 @@ export default function (plop) {
 					pattern = mongoMVC;
 				} else if (data.data == 'jpa') {
 					pattern = jpaMVC;
-				} else {
-					pattern = sampleMVC;
+				} else if (data.data == 'mybatis') {
+					pattern = mybatis;
 				}
 			}
 			if (pattern == null) {
