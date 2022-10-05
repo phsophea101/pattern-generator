@@ -6,7 +6,7 @@
 	<sql id="pageableSql">
 		<bind name="offset" value="rpp * (page-1)" />
 		<if test="pageable == true">
-			LIMIT #{offset} , #{rpp}
+			LIMIT #{rpp} OFFSET #{offset}
 		</if>
 	</sql>
 

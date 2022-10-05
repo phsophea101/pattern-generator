@@ -68,6 +68,11 @@ var actions = [
 		type: 'add',
 		path: 'src/main/resources/mappers/{{titleCase service}}DAO.xml',
 		templateFile: '../templates/mvc/mybatis/xml/ApplicationXML.hbs'
+	},
+	{
+		type: 'add',
+		path: 'src/main/resources/mappers/Pageable.xml',
+		templateFile: '../templates/mvc/mybatis/xml/ApplicationSQLPageable.hbs'
 	}
 ];
 export {

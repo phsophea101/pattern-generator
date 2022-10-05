@@ -19,6 +19,7 @@ export default function (plop) {
 				type: 'input',
 				name: 'package',
 				message: "what's package?",
+				help: 'Decides whether or not to generate a client',
 				validate: isNotEmptyFor("package"),
 			},
 			{
@@ -60,9 +61,11 @@ export default function (plop) {
 				} else if (data.data == 'mybatis') {
 					pattern = mybatis;
 				}
+			} else if (data.data == 'hexagonal') {
+// TODO
 			}
 			if (pattern == null) {
-				console.log('\x1B[31m*Oop, something went wrong! we will back to fix soon.\x1B[34m -_-');
+				console.log('\x1B[31m*Oop, something went wrong! we will back to fix soon.\x1B[34m *_*');
 				return actions;
 			}
 			for (var i = 0; i < pattern.actions.length; i++) {
