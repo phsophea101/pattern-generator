@@ -7,6 +7,7 @@ const isNotEmptyFor = (prompt) => (value) => {
 	return true;
 };
 
+const titleCase = (s) => s.replace(/^_*(.)|_+(.)/g, (s, c, d) => c ? c.toUpperCase() : '' + d.toUpperCase());
 export default function (plop) {
 
 	plop.setHelper('genPackage', function (text) {
@@ -52,7 +53,8 @@ export default function (plop) {
 		],
 		actions: function (data) {
 			var actions = [];
-			var pattern = null;;
+			var pattern = null;
+			data.service = titleCase(data.service);
 			if (data.pattern == 'mvc') {
 				if (data.data == 'mongo') {
 					pattern = mongoMVC;
@@ -62,7 +64,7 @@ export default function (plop) {
 					pattern = mybatis;
 				}
 			} else if (data.data == 'hexagonal') {
-// TODO
+				// TODO
 			}
 			if (pattern == null) {
 				console.log('\x1B[31m*Oop, something went wrong! we will back to fix soon.\x1B[34m *_*');
