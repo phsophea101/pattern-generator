@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="{{package}}.core.dao.{{titleCase service}}DAO">
+<mapper namespace="{{package}}.{{lowerCase service}}.biz.dao.{{titleCase service}}DAO">
 
-	<insert id="save" parameterType="{{package}}.core.entity.{{titleCase service}}Entity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+	<insert id="save" parameterType="{{package}}.{{lowerCase service}}.biz.entity.{{titleCase service}}Entity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 
         <![CDATA[
-            INSERT INTO {{lowerCase service}} (
+            INSERT INTO {{snakeCase service}} (
                 status
                 , created_by
                 , created_date
@@ -19,10 +19,10 @@
 
 	</insert>
 
-	<update id="update" parameterType="{{package}}.core.entity.{{titleCase service}}Entity">
+	<update id="update" parameterType="{{package}}.{{lowerCase service}}.biz.entity.{{titleCase service}}Entity">
 
         <![CDATA[
-            UPDATE {{lowerCase service}} SET
+            UPDATE {{snakeCase service}} SET
                 status = IFNULL(#{status}, status)
                 , updated_by 	= IFNULL(#{updatedBy}, updated_by)
                 , updated_date 	= IFNULL(#{updatedDate}, updated_date)
@@ -32,13 +32,13 @@
 
 	</update>
 
-    <select id="findOne" resultType="{{package}}.core.entity.{{titleCase service}}Entity">
+    <select id="findOne" resultType="{{package}}.{{lowerCase service}}.biz.entity.{{titleCase service}}Entity">
         
         <![CDATA[
             SELECT 
                 *
             FROM
-                {{lowerCase service}}
+                {{snakeCase service}}
             WHERE
                 id = #{id}
             LIMIT
@@ -47,18 +47,18 @@
 
 	</select>
     
-    <select id="findWithList" resultType="{{package}}.core.entity.{{titleCase service}}Entity">
+    <select id="findWithList" resultType="{{package}}.{{lowerCase service}}.biz.entity.{{titleCase service}}Entity">
         
         <![CDATA[
             SELECT 
                 *
             FROM
-                {{lowerCase service}}
+                {{snakeCase service}}
             ORDER BY   
                 property direction
         ]]>
         
-		<include refid="com.wingmoney.wingmall.core.Pageable.pageableSql" />
+		<include refid="com.wingmoney.wingmall.{{lowerCase service}}.biz.Pageable.pageableSql" />
 	</select>
     
     <select id="countRecords" resultType="long">
@@ -67,7 +67,7 @@
             SELECT 
                 COUNT(*)
             FROM
-                {{lowerCase service}}
+                {{snakeCase service}}
         ]]>
 
 	</select>

@@ -1,11 +1,11 @@
-package {{package}}.core.service.impl;
+package {{package}}.{{lowerCase service}}.biz.service.impl;
 
 import com.wingmoney.core.exception.BusinessException;
-import {{package}}.core.dao.{{titleCase service}}DAO;
-import {{package}}.core.dto.{{titleCase service}}DTO;
-import {{package}}.core.entity.{{titleCase service}}Entity;
-import {{package}}.core.mapper.{{titleCase service}}Mapper;
-import {{package}}.core.service.{{titleCase service}}Service;
+import {{package}}.{{lowerCase service}}.biz.dao.{{titleCase service}}DAO;
+import {{package}}.{{lowerCase service}}.biz.dto.{{titleCase service}}DTO;
+import {{package}}.{{lowerCase service}}.biz.entity.{{titleCase service}}Entity;
+import {{package}}.{{lowerCase service}}.biz.mapper.{{titleCase service}}Mapper;
+import {{package}}.{{lowerCase service}}.biz.service.{{titleCase service}}Service;
 import com.wingmoney.web.vo.request.PageableRequestVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static {{package}}.core.dao.{{titleCase service}}DAO.idContains;
+import static {{package}}.{{lowerCase service}}.biz.dao.{{titleCase service}}DAO.idContains;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
