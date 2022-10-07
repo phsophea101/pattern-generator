@@ -20,11 +20,11 @@ sudo npm install -g .
 cd spring-application
 generate
 or
-generate {package} {module} {pattern} {data-engine}
+generate {package} {module} {pattern} {data-mapper}
 ```
 Example: 
 juts type generate and following the instuction or \n
-pattern is "mvc", package is "com.wingmoney.inventory", module is "deportment" and data engine is "mongo"
+pattern is "mvc", package is "com.wingmoney.inventory", module is "deportment" and data mapper is "mongo"
 ```sh
 generate
 or 
