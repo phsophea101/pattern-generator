@@ -13,6 +13,16 @@ import javax.persistence.*;
 public class {{titleCase service}}Entity extends AuditAutoGenerateEntity<Long> implements RecyclableEntity<String> {
     public static final String TABLE_NAME = "{{snakeCase service}}";
     
-    private String platform;
+    
     private String status;
+
+    @Override
+    public String getStatus() {
+        return status;
+    }
+
+    @Override
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
