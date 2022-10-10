@@ -69,7 +69,7 @@ public class {{titleCase service}}ServiceImpl implements {{titleCase service}}Se
     @Override
     public Page<{{titleCase service}}DTO> findWithPage({{titleCase service}}DTO {{lowerCase service}}DTO, PageableRequestVO pageableRequestVO) throws BusinessException {
         CriteriaAce<{{titleCase service}}Entity> criteria = new CriteriaAce<>({{titleCase service}}Entity.class);
-        criteria.page(pageableRequestVO.getPage() - 1);
+        criteria.page(pageableRequestVO.getPage());
         criteria.limit(pageableRequestVO.getRpp());
         long records = this.repository.count(criteria);
         List<{{titleCase service}}DTO> items = new ArrayList<>();
