@@ -1,82 +1,32 @@
 package {{package}}.{{lowerCase service}}.biz.service.impl;
 
-import com.wingmoney.core.exception.BusinessException;
-import com.wingmoney.data.criterion.CriteriaAce;
-import com.wingmoney.data.repository.EntityRepository;
-import com.wingmoney.merchant.consts.ErrorCode;
 import {{package}}.{{lowerCase service}}.biz.dto.{{titleCase service}}DTO;
-import {{package}}.{{lowerCase service}}.biz.entity.{{titleCase service}}Entity;
-import {{package}}.{{lowerCase service}}.biz.mapper.{{titleCase service}}Mapper;
-import {{package}}.{{lowerCase service}}.biz.service.{{titleCase service}}Service;
-import com.wingmoney.merchant.type.StatusType;
-import com.wingmoney.web.vo.request.PageableRequestVO;
+import com.wingmoney.web.annotation.PlatformService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
+import lombok.SneakyThrows;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Service
+@PlatformService(platform = Agri{{titleCase service}}ServiceImpl.PLATFORM)
 @RequiredArgsConstructor
-public class {{titleCase service}}ServiceImpl implements {{titleCase service}}Service {
-    protected final EntityRepository repository;
+public class Agri{{titleCase service}}ServiceImpl extends Abstract{{titleCase service}}Service {
+    public static final String PLATFORM = PlatformType.AGRI;
+    
+    @SneakyThrows
     @Override
-    public void create({{titleCase service}}DTO {{lowerCase service}}DTO) throws BusinessException {
-        {{titleCase service}}Entity entity = new {{titleCase service}}Entity();
-        entity.setStatus(StatusType.ACTIVE.name());
-        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity({{lowerCase service}}DTO, entity);
-        this.repository.saveOrUpdate(entity);
-        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, {{lowerCase service}}DTO);
+    @Transactional(rollbackFor = Exception.class)
+    public void create({{titleCase service}}DTO {{lowerCase service}}DTO) {
+        
+        this.createSample({{lowerCase service}}DTO);
+//        TODO
     }
     
+    @SneakyThrows
     @Override
-    public void update({{titleCase service}}DTO {{lowerCase service}}DTO, String id) throws BusinessException {
-        {{titleCase service}}Entity entity = this.findOneEntity(id);
-        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity({{lowerCase service}}DTO, entity);
-        this.repository.saveOrUpdate(entity);
-        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, {{lowerCase service}}DTO);
+    @Transactional(rollbackFor = Exception.class)
+    public void update({{titleCase service}}DTO {{lowerCase service}}DTO, String id) {
+        
+        this.updateSample({{lowerCase service}}DTO, id);
+//        TODO
     }
         
-        
-    @Override
-    public void delete(String id) throws BusinessException {
-        {{titleCase service}}DTO oldDto = this.findOne(id);
-        {{titleCase service}}Entity entity = new {{titleCase service}}Entity();
-        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity(oldDto, entity);
-        entity.setStatus(StatusType.DELETED.name());
-        this.repository.saveOrUpdate(entity);
-    }
-    
-    @Override
-    public {{titleCase service}}DTO findOne(String id) throws BusinessException {
-        {{titleCase service}}Entity entity = this.findOneEntity(id);
-        {{titleCase service}}DTO dto = new {{titleCase service}}DTO();
-        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, dto);
-        return dto;
-    }
-    
-    private {{titleCase service}}Entity findOneEntity(String id) throws BusinessException {
-        Assert.notNull(id, "{{lowerCase service}} id require.");
-        {{titleCase service}}Entity entity = this.repository.getEntityById({{titleCase service}}Entity.class , Long.valueOf(id));
-        if (entity == null) {
-            throw new BusinessException(ErrorCode.U001.name(), ErrorCode.U001.getDesc());
-        }
-        return entity;
-    }
-
-    @Override
-    public Page<{{titleCase service}}DTO> findWithPage({{titleCase service}}DTO {{lowerCase service}}DTO, PageableRequestVO pageableRequestVO) throws BusinessException {
-        CriteriaAce<{{titleCase service}}Entity> criteria = new CriteriaAce<>({{titleCase service}}Entity.class);
-        criteria.page(pageableRequestVO.getPage());
-        criteria.limit(pageableRequestVO.getRpp());
-        long records = this.repository.count(criteria);
-        List<{{titleCase service}}DTO> items = new ArrayList<>();
-        if (records > 0) {
-            List<{{titleCase service}}Entity> {{lowerCase service}}Page = this.repository.list(criteria);
-            {{titleCase service}}Mapper.INSTANCE.copyListEntityToDto({{lowerCase service}}Page, items);
-        }
-        return new PageImpl<>(items, PageRequest.of(pageableRequestVO.getPage() - 1, pageableRequestVO.getRpp()), records);
-    }
 }

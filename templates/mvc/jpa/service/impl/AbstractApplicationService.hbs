@@ -1,0 +1,87 @@
+package {{package}}.{{lowerCase service}}.biz.service.impl;
+
+import com.wingmoney.core.exception.BusinessException;
+import com.wingmoney.data.criterion.CriteriaAce;
+import com.wingmoney.data.repository.EntityRepository;
+import {{package}}.{{lowerCase service}}.biz.dto.{{titleCase service}}DTO;
+import {{package}}.{{lowerCase service}}.biz.entity.{{titleCase service}}Entity;
+import {{package}}.{{lowerCase service}}.biz.mapper.{{titleCase service}}Mapper;
+import {{package}}.{{lowerCase service}}.biz.service.{{titleCase service}}Service;
+import com.wingmoney.web.vo.request.PageableRequestVO;
+import lombok.SneakyThrows;
+import org.springframework.data.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Abstract{{titleCase service}}Service implements {{titleCase service}}Service {
+    
+    @Autowired
+    protected EntityRepository repository;
+    
+    @SneakyThrows
+    @Transactional(rollbackFor = Exception.class)
+    public void createSample({{titleCase service}}DTO {{lowerCase service}}DTO) {
+        {{titleCase service}}Entity entity = new {{titleCase service}}Entity();
+        entity.setStatus(StatusType.ACTIVE.name());
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity({{lowerCase service}}DTO, entity);
+        this.repository.saveOrUpdate(entity);
+        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, {{lowerCase service}}DTO);
+    }
+    
+    @SneakyThrows
+    @Transactional(rollbackFor = Exception.class)
+    public void updateSample({{titleCase service}}DTO {{lowerCase service}}DTO, String id) {
+        {{titleCase service}}Entity entity = this.findOneEntity(id);
+        {{titleCase service}}Mapper.INSTANCE.copyDtoToEntity({{lowerCase service}}DTO, entity);
+        this.repository.saveOrUpdate(entity);
+        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, {{lowerCase service}}DTO);
+    }
+        
+    
+    @SneakyThrows
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void delete(String id) {
+        {{titleCase service}}Entity entity = this.findOneEntity(id);
+        entity.setStatus(StatusType.DELETED.name());
+        this.repository.saveOrUpdate(entity);
+    }
+    
+    @SneakyThrows
+    @Override
+    public {{titleCase service}}DTO findOne(String id) {
+        {{titleCase service}}Entity entity = this.findOneEntity(id);
+        {{titleCase service}}DTO dto = new {{titleCase service}}DTO();
+        {{titleCase service}}Mapper.INSTANCE.copyEntityToDto(entity, dto);
+        return dto;
+    }
+    
+    @SneakyThrows
+    private {{titleCase service}}Entity findOneEntity(String id) {
+        Assert.notNull(id, "{{lowerCase service}} id require.");
+        {{titleCase service}}Entity entity = this.repository.getEntityById({{titleCase service}}Entity.class , Long.valueOf(id));
+        if (entity == null) {
+            throw new BusinessException(ErrorCode.U001.name(), ErrorCode.U001.getDesc());
+        }
+        return entity;
+    }
+
+    @SneakyThrows
+    @Override
+    public Page<{{titleCase service}}DTO> findWithPage({{titleCase service}}DTO {{lowerCase service}}DTO, PageableRequestVO pageableRequestVO) {
+        CriteriaAce<{{titleCase service}}Entity> criteria = new CriteriaAce<>({{titleCase service}}Entity.class);
+        criteria.page(pageableRequestVO.getPage());
+        criteria.limit(pageableRequestVO.getRpp());
+        long records = this.repository.count(criteria);
+        List<{{titleCase service}}DTO> items = new ArrayList<>();
+        if (records > 0) {
+            List<{{titleCase service}}Entity> {{lowerCase service}}Page = this.repository.list(criteria);
+            {{titleCase service}}Mapper.INSTANCE.copyListEntityToDto({{lowerCase service}}Page, items);
+        }
+        return new PageImpl<>(items, PageRequest.of(pageableRequestVO.getPage() - 1, pageableRequestVO.getRpp()), records);
+    }
+}

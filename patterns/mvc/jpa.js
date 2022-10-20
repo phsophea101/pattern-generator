@@ -61,8 +61,13 @@ var actions = [
 	},
 	{
 		type: 'add',
-		path: 'src/main/java/{{genPackage package}}/{{lowerCase service}}/biz/service/impl/{{titleCase service}}ServiceImpl.java',
+		path: 'src/main/java/{{genPackage package}}/{{lowerCase service}}/biz/service/impl/Agri{{titleCase service}}ServiceImpl.java',
 		templateFile: '../templates/mvc/jpa/service/impl/ApplicationServiceImpl.hbs'
+	},
+	{
+		type: 'add',
+		path: 'src/main/java/{{genPackage package}}/{{lowerCase service}}/biz/service/impl/Abstract{{titleCase service}}Service.java',
+		templateFile: '../templates/mvc/jpa/service/impl/AbstractApplicationService.hbs'
 	}
 ];
 export {

@@ -1,14 +1,31 @@
 package {{package}}.{{lowerCase service}}.web.app;
 
+import com.wingmoney.web.component.PlatformServiceDiscovery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import {{package}}.{{lowerCase service}}.biz.service.{{titleCase service}}Service;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "[APP API]: to manipulate for {{lowerCase service}}", description = "these APIs can make a ... for {{lowerCase service}}, ...")
 @RestController
 @RequestMapping("api/app/{{lowerCase service}}s")
 @RequiredArgsConstructor
-public class App{{titleCase service}}Controller {
+public class App{{titleCase service}}Controller extends PlatformServiceDiscovery<{{titleCase service}}Service> {
 
+    @Override
+    protected String getDefaultPlatform() {
+        return PlatformType.AGRI;
+    }
+
+    
+    /*Sample implementation for mobile frontend
+    @SneakyThrows
+    @GetMapping("find-one/{id}")
+    public ResponseMessageBuilder.ResponseMessage<AppMerchantResponseVO> findOne(@PathVariable String id) {
+        MerchantDTO dto = this.getService().findOne(id);
+        AppMerchantResponseVO merchantResponseVO = new AppMerchantResponseVO();
+        MerchantMapper.INSTANCE.copyAppDtoToResponseVo(dto, merchantResponseVO);
+        return new ResponseMessageBuilder<AppMerchantResponseVO>().addData(merchantResponseVO).success().build();
+    }*/
 }
